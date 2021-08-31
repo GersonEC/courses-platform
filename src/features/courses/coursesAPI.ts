@@ -1,6 +1,16 @@
-// A mock function to mimic making an async request for data
-export function fetchCount(amount = 1) {
-  return new Promise<{ data: number }>((resolve) =>
-    setTimeout(() => resolve({ data: amount }), 500)
-  );
+export const createCourse = (name: string) => {
+  return postData("http://localhost:8080/courses", {
+    name,
+  });
+};
+
+function postData(url = ``, data = {}) {
+  // Default options are marked with *
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  }).then((response) => response.json());
 }
