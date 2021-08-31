@@ -1,0 +1,12 @@
+{
+  "courses": [
+    {
+      "name": "Pure React",
+      "id": 1
+    },
+    {
+      "name": "Pure Redux",
+      "id": 2
+    }
+  ]
+}

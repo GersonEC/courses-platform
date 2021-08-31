@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
+import { Course } from "../../utils/models";
 import { fetchCount } from "./coursesAPI";
 
 export interface CoursesState {
-  courses: string[];
+  courses: Course[];
 }
 
 const initialState: CoursesState = {
@@ -30,8 +31,7 @@ export const coursesSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     addCourse: (state, action) => {
-      debugger;
-      state.courses.push(action.payload.course);
+      state.courses.push(action.payload);
     },
   },
 });

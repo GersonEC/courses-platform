@@ -10,8 +10,7 @@ export function CourseContainer() {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    debugger;
-    dispatch(addCourse({ course: courseName }));
+    dispatch(addCourse({ id: Math.random(), name: courseName }));
   };
 
   const onCourseChange = (e: any) => {
@@ -24,7 +23,7 @@ export function CourseContainer() {
         courses.map((course) => {
           return (
             <ul>
-              <li>{course}</li>
+              <li>{course.name}</li>
             </ul>
           );
         })
