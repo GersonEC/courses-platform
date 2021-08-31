@@ -1,21 +1,41 @@
 import React, { useState } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import {
-  increment,
-  incrementAsync,
-  selectCourses,
-} from "../../features/courses/coursesSlice";
-import styles from "./Counter.module.css";
+import { addCourse, selectCourses } from "../../features/courses/coursesSlice";
 
 export function CourseContainer() {
   const courses = useAppSelector(selectCourses);
   const dispatch = useAppDispatch();
-  const [incrementAmount, setIncrementAmount] = useState("2");
+  const [courseName, setCourseName] = useState("");
+
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    debugger;
+    dispatch(addCourse({ course: courseName }));
+  };
+
+  const onCourseChange = (e: any) => {
+    setCourseName(e.target.value);
+  };
 
   return (
     <div>
-      <h1>Ciao</h1>
+      {courses.length > 0 ? (
+        courses.map((course) => {
+          return (
+            <ul>
+              <li>{course}</li>
+            </ul>
+          );
+        })
+      ) : (
+        <form onSubmit={onSubmit}>
+          <h1>Create your first course</h1>
+          <label>Pick a name</label>
+          <input value={courseName} onChange={onCourseChange} />
+          <button type="submit">Create Course</button>
+        </form>
+      )}
     </div>
   );
 }
