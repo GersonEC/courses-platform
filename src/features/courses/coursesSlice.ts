@@ -5,10 +5,12 @@ import { createCourse } from "./coursesAPI";
 
 export interface CoursesState {
   courses: Course[];
+  status: "idle" | "pending" | "success" | "error";
 }
 
 const initialState: CoursesState = {
   courses: [],
+  status: "idle",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -34,8 +36,15 @@ export const coursesSlice = createSlice({
     //},
   },
   extraReducers: (builder) => {
+    builder.addCase(addCourse.pending, (state, action) => {
+      state.status = "pending";
+    });
     builder.addCase(addCourse.fulfilled, (state, action) => {
       state.courses.push(action.payload);
+      state.status = "success";
+    });
+    builder.addCase(addCourse.rejected, (state, action) => {
+      state.status = "error";
     });
   },
 });
@@ -46,6 +55,7 @@ export const coursesSlice = createSlice({
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectCourses = (state: RootState) => state.courses.courses;
+export const selectCoursesStatus = (state: RootState) => state.courses.status;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
