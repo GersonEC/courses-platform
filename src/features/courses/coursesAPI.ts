@@ -1,6 +1,7 @@
-export const createCourse = (name: string) => {
+export const createCourse = (name: string, price: number) => {
   return postData("/courses", {
     name,
+    price,
   });
 };
 

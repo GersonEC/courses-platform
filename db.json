@@ -1,36 +1,9 @@
 {
   "courses": [
     {
-      "name": "Pure React",
+      "name": "Pure Reudx",
+      "price": "123",
       "id": 1
-    },
-    {
-      "name": "Pure Redux",
-      "id": 2
-    },
-    {
-      "name": "english",
-      "id": 3
-    },
-    {
-      "name": "afsdf",
-      "id": 4
-    },
-    {
-      "name": "asdasd",
-      "id": 5
-    },
-    {
-      "name": "English",
-      "id": 6
-    },
-    {
-      "name": "English",
-      "id": 7
-    },
-    {
-      "name": "Italian",
-      "id": 8
     }
   ]
 }

@@ -7,11 +7,14 @@ import {
   selectCourses,
   selectCoursesStatus,
 } from "../../features/courses/coursesSlice";
+import { Course as CourseModel } from "../../utils/models";
+import { Course } from "./Course";
 
 export function CourseContainer() {
   const courses = useAppSelector(selectCourses);
   const dispatch = useAppDispatch();
   const [courseName, setCourseName] = useState("");
+  const [coursePrice, setCoursePrice] = useState(0);
   const coursesStatus = useAppSelector(selectCoursesStatus);
 
   useEffect(() => {
@@ -20,11 +23,14 @@ export function CourseContainer() {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    dispatch(addCourse(courseName));
+    dispatch(addCourse({ name: courseName, price: coursePrice }));
   };
 
   const onCourseChange = (e: any) => {
     setCourseName(e.target.value);
+  };
+  const onCoursePriceChange = (e: any) => {
+    setCoursePrice(e.target.value);
   };
 
   if (coursesStatus === "pending") {
@@ -38,18 +44,23 @@ export function CourseContainer() {
   return (
     <div>
       {courses.length > 0 ? (
-        courses.map((course) => {
-          return (
-            <ul>
-              <li>{course && course.name}</li>
-            </ul>
-          );
-        })
+        courses.map((course: CourseModel) => (
+          <Course key={course.id} name={course.name} price={course.price} />
+        ))
       ) : (
-        <form onSubmit={onSubmit}>
+        <form
+          onSubmit={onSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <h1>Create your first course</h1>
           <label>Pick a name</label>
           <input value={courseName} onChange={onCourseChange} />
+          <label>Pick a price</label>
+          <input value={coursePrice} onChange={onCoursePriceChange} />
           <button type="submit">Create Course</button>
         </form>
       )}

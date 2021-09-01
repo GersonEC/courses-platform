@@ -18,10 +18,14 @@ const initialState: CoursesState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
+interface AddCourseArgs {
+  name: string;
+  price: number;
+}
 export const addCourse = createAsyncThunk(
   "courses/createCourse",
-  async (name: string) => {
-    const response = await createCourse(name);
+  async (args: AddCourseArgs) => {
+    const response = await createCourse(args.name, args.price);
     // The value we return becomes the `fulfilled` action payload
     return response;
   }
