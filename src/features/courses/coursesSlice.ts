@@ -6,11 +6,13 @@ import { createCourse } from "./coursesAPI";
 export interface CoursesState {
   courses: Course[];
   status: "idle" | "pending" | "success" | "error";
+  isModalVisible: boolean;
 }
 
 const initialState: CoursesState = {
   courses: [],
   status: "idle",
+  isModalVisible: false,
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -40,8 +42,9 @@ export const coursesSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    //addCourse: (state, action) => {
-    //},
+    openModal: (state) => {
+      state.isModalVisible = true;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addCourse.pending, (state, action) => {
@@ -50,6 +53,7 @@ export const coursesSlice = createSlice({
     builder.addCase(addCourse.fulfilled, (state, action) => {
       state.courses.push(action.payload);
       state.status = "success";
+      state.isModalVisible = false;
     });
     builder.addCase(addCourse.rejected, (state, action) => {
       state.status = "error";
@@ -64,13 +68,15 @@ export const coursesSlice = createSlice({
   },
 });
 
-//export const { addCourse } = coursesSlice.actions;
+export const { openModal } = coursesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectCourses = (state: RootState) => state.courses.courses;
 export const selectCoursesStatus = (state: RootState) => state.courses.status;
+export const selectIsModalVisible = (state: RootState) =>
+  state.courses.isModalVisible;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

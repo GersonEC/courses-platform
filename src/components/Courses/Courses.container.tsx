@@ -1,36 +1,31 @@
 import React, { useEffect, useState } from "react";
-
+import Modal from "antd/lib/modal/Modal";
+import "antd/dist/antd.css";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
-  addCourse,
+  openModal,
   loadCourses,
   selectCourses,
   selectCoursesStatus,
+  selectIsModalVisible,
 } from "../../features/courses/coursesSlice";
 import { Course as CourseModel } from "../../utils/models";
 import { Course } from "./Course";
+import { NewCourse } from "./NewCourse";
 
 export function CourseContainer() {
   const courses = useAppSelector(selectCourses);
+  const isModalVisible = useAppSelector(selectIsModalVisible);
   const dispatch = useAppDispatch();
-  const [courseName, setCourseName] = useState("");
-  const [coursePrice, setCoursePrice] = useState(0);
+
   const coursesStatus = useAppSelector(selectCoursesStatus);
 
   useEffect(() => {
     dispatch(loadCourses());
   }, []);
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    dispatch(addCourse({ name: courseName, price: coursePrice }));
-  };
-
-  const onCourseChange = (e: any) => {
-    setCourseName(e.target.value);
-  };
-  const onCoursePriceChange = (e: any) => {
-    setCoursePrice(e.target.value);
+  const showModal = () => {
+    dispatch(openModal());
   };
 
   if (coursesStatus === "pending") {
@@ -44,25 +39,30 @@ export function CourseContainer() {
   return (
     <div>
       {courses.length > 0 ? (
-        courses.map((course: CourseModel) => (
-          <Course key={course.id} name={course.name} price={course.price} />
-        ))
+        <div>
+          <h1>Your Courses</h1>
+          <button style={{ height: "2rem" }} onClick={showModal}>
+            Add new Course
+          </button>
+          {courses.map((course: CourseModel) => (
+            <div key={course.id}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  gap: "2rem",
+                  alignItems: "center",
+                }}
+              >
+                <Modal title="" visible={isModalVisible} footer={[]}>
+                  <NewCourse />
+                </Modal>
+              </div>
+              <Course name={course.name} price={course.price} />
+            </div>
+          ))}
+        </div>
       ) : (
-        <form
-          onSubmit={onSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <h1>Create your first course</h1>
-          <label>Pick a name</label>
-          <input value={courseName} onChange={onCourseChange} />
-          <label>Pick a price</label>
-          <input value={coursePrice} onChange={onCoursePriceChange} />
-          <button type="submit">Create Course</button>
-        </form>
+        <NewCourse />
       )}
     </div>
   );
