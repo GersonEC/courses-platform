@@ -57,7 +57,7 @@ export function CourseContainer() {
                   <NewCourse />
                 </Modal>
               </div>
-              <Course name={course.name} price={course.price} />
+              <Course course={course} />
             </div>
           ))}
         </div>
