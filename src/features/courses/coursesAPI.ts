@@ -1,5 +1,5 @@
 export const createCourse = (name: string) => {
-  return postData("http://localhost:8080/courses", {
+  return postData("/courses", {
     name,
   });
 };

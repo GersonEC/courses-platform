@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { addCourse, selectCourses } from "../../features/courses/coursesSlice";
+import {
+  addCourse,
+  loadCourses,
+  selectCourses,
+  selectCoursesStatus,
+} from "../../features/courses/coursesSlice";
 
 export function CourseContainer() {
   const courses = useAppSelector(selectCourses);
   const dispatch = useAppDispatch();
   const [courseName, setCourseName] = useState("");
+  const coursesStatus = useAppSelector(selectCoursesStatus);
+
+  useEffect(() => {
+    dispatch(loadCourses());
+  }, []);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -16,6 +26,14 @@ export function CourseContainer() {
   const onCourseChange = (e: any) => {
     setCourseName(e.target.value);
   };
+
+  if (coursesStatus === "pending") {
+    return <h1>Loading courses...</h1>;
+  }
+
+  if (coursesStatus === "error") {
+    return <h1>Something went wrong :(</h1>;
+  }
 
   return (
     <div>

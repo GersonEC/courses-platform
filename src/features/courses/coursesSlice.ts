@@ -27,6 +27,10 @@ export const addCourse = createAsyncThunk(
   }
 );
 
+export const loadCourses = createAsyncThunk("courses/loadCourses", async () => {
+  return fetch("/courses").then((res) => res.json());
+});
+
 export const coursesSlice = createSlice({
   name: "courses",
   initialState,
@@ -45,6 +49,13 @@ export const coursesSlice = createSlice({
     });
     builder.addCase(addCourse.rejected, (state, action) => {
       state.status = "error";
+    });
+    builder.addCase(loadCourses.pending, (state, action) => {
+      state.status = "pending";
+    });
+    builder.addCase(loadCourses.fulfilled, (state, action) => {
+      state.courses = action.payload;
+      state.status = "success";
     });
   },
 });

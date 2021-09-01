@@ -26,6 +26,7 @@
     "eject": "react-scripts eject",
     "dev-server": "json-server db.json -w -p 8080"
   },
+  "proxy": "http://localhost:8080/",
   "eslintConfig": {
     "extends": "react-app"
   },
