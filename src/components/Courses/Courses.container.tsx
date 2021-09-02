@@ -36,34 +36,34 @@ export function CourseContainer() {
     return <h1>Something went wrong :(</h1>;
   }
 
+  if (courses.length === 0) {
+    return <h1>Loading courses...</h1>;
+  }
+
   return (
     <div>
-      {courses.length > 0 ? (
-        <div>
-          <h1>Your Courses</h1>
-          <button style={{ height: "2rem" }} onClick={showModal}>
-            Add new Course
-          </button>
-          {courses.map((course: CourseModel) => (
-            <div key={course.id}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  gap: "2rem",
-                  alignItems: "center",
-                }}
-              >
-                <Modal title="" visible={isModalVisible} footer={[]}>
-                  <NewCourse />
-                </Modal>
-              </div>
-              <Course course={course} />
-            </div>
-          ))}
+      <div>
+        <h1>Your Courses</h1>
+        <button style={{ height: "2rem" }} onClick={showModal}>
+          Add new Course
+        </button>
+        <div
+          style={{
+            display: "inline-flex",
+            gap: "2rem",
+            alignItems: "center",
+          }}
+        >
+          <Modal title="" visible={isModalVisible} footer={[]}>
+            <NewCourse />
+          </Modal>
         </div>
-      ) : (
-        <NewCourse />
-      )}
+        {courses.map((course: CourseModel) => (
+          <div style={{ marginTop: "2rem" }} key={course.id}>
+            <Course course={course} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

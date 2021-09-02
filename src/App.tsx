@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import { CourseDetail } from "./components/Courses/CourseDetail";
+import { Page404 } from "./pages/404.page";
 import CoursePage from "./pages/Course.page";
 
 const Routes = () => {
@@ -12,6 +13,9 @@ const Routes = () => {
       </Route>
       <Route path="/courses/:courseId">
         <CourseDetail />
+      </Route>
+      <Route path="/*">
+        <Page404 />
       </Route>
     </Switch>
   );
