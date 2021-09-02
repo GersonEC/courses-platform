@@ -31,6 +31,21 @@
       "title": "Imparare testinh",
       "courseId": 1,
       "id": 4
+    },
+    {
+      "title": "react fondamento",
+      "courseId": 2,
+      "id": 5
+    },
+    {
+      "title": "react avanzato",
+      "courseId": 2,
+      "id": 6
+    },
+    {
+      "title": "Hooks",
+      "courseId": 2,
+      "id": 7
     }
   ]
 }

@@ -12,7 +12,7 @@ export const NewLesson = ({ courseId }: NewLessonProps) => {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState("");
   const dispatch = useAppDispatch();
-  //const inputRef = useRef();
+  //const inputRef = useRef(null);
 
   const reset = () => {
     setTitle("");
@@ -25,7 +25,7 @@ export const NewLesson = ({ courseId }: NewLessonProps) => {
   };
 
   /*useEffect(() => {
-    if (editing ) {
+    if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);*/

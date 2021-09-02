@@ -6,7 +6,10 @@ import {
   loadCourses,
   selectCourses,
 } from "../../features/courses/coursesSlice";
-import { selectLessons } from "../../features/lessons/lessonsSlice";
+import {
+  loadLessons,
+  selectLessons,
+} from "../../features/lessons/lessonsSlice";
 import { Course, Lesson } from "../../utils/models";
 import { NewLesson } from "../Lessons/NewLesson";
 
@@ -25,6 +28,7 @@ export const CourseDetail = () => {
   console.log("Lessons: ", lessons);
   useEffect(() => {
     dispatch(loadCourses());
+    dispatch(loadLessons());
   }, []);
 
   useEffect(() => {
@@ -59,9 +63,11 @@ export const CourseDetail = () => {
             <div>
               {lessons.length > 0 && (
                 <ul>
-                  {lessons.map((lesson: Lesson) => (
-                    <li key={lesson.id}>{lesson.title}</li>
-                  ))}
+                  {lessons
+                    .filter((lesson) => lesson.courseId === currentCourse.id)
+                    .map((lesson: Lesson) => (
+                      <li key={lesson.id}>{lesson.title}</li>
+                    ))}
                 </ul>
               )}
               <NewLesson courseId={currentCourse.id} />

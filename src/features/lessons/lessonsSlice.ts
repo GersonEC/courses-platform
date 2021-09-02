@@ -26,9 +26,9 @@ export const addLesson = createAsyncThunk(
   }
 );
 
-/*export const loadCourses = createAsyncThunk("courses/loadCourses", async () => {
-  return fetch("/courses").then((res) => res.json());
-});*/
+export const loadLessons = createAsyncThunk("courses/loadLessons", async () => {
+  return fetch("/lessons").then((res) => res.json());
+});
 
 export const lessonsSlice = createSlice({
   name: "lessons",
@@ -44,6 +44,13 @@ export const lessonsSlice = createSlice({
     });
     builder.addCase(addLesson.rejected, (state, action) => {
       state.status = "error";
+    });
+    builder.addCase(loadLessons.pending, (state, action) => {
+      state.status = "pending";
+    });
+    builder.addCase(loadLessons.fulfilled, (state, action) => {
+      state.lessons = action.payload;
+      state.status = "success";
     });
   },
 });
