@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import coursesReducer from "../features/courses/coursesSlice";
+import lessonsReducer from "../features/lessons/lessonsSlice";
 
 export const store = configureStore({
   reducer: {
     courses: coursesReducer,
+    lessons: lessonsReducer,
   },
 });
 

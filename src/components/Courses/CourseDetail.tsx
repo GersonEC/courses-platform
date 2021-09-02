@@ -6,7 +6,9 @@ import {
   loadCourses,
   selectCourses,
 } from "../../features/courses/coursesSlice";
-import { Course } from "../../utils/models";
+import { selectLessons } from "../../features/lessons/lessonsSlice";
+import { Course, Lesson } from "../../utils/models";
+import { NewLesson } from "../Lessons/NewLesson";
 
 interface ParamTypes {
   courseId: string;
@@ -15,10 +17,12 @@ interface ParamTypes {
 export const CourseDetail = () => {
   const { courseId } = useParams<ParamTypes>();
   const courses = useAppSelector(selectCourses);
+  const lessons = useAppSelector(selectLessons);
   const [currentCourse, setCurrentCourse] = useState<Course>();
   const [courseFound, setCourseFound] = useState<boolean | null>(null);
   const dispatch = useAppDispatch();
 
+  console.log("Lessons: ", lessons);
   useEffect(() => {
     dispatch(loadCourses());
   }, []);
@@ -47,8 +51,22 @@ export const CourseDetail = () => {
     <div>
       {currentCourse && (
         <>
-          <h1>Course Id: {currentCourse.id}</h1>
-          <h1>Course name: {currentCourse.name}</h1>
+          <div>
+            <h1>Course Id: {currentCourse.id}</h1>
+            <h1>Course name: {currentCourse.name}</h1>
+          </div>
+          <div style={{ textAlign: "left", marginLeft: "2rem" }}>
+            <div>
+              {lessons.length > 0 && (
+                <ul>
+                  {lessons.map((lesson: Lesson) => (
+                    <li key={lesson.id}>{lesson.title}</li>
+                  ))}
+                </ul>
+              )}
+              <NewLesson courseId={currentCourse.id} />
+            </div>
+          </div>
         </>
       )}
     </div>

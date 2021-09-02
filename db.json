@@ -10,5 +10,27 @@
       "price": "32",
       "id": 2
     }
+  ],
+  "lessons": [
+    {
+      "title": "Nuova lezione",
+      "courseId": 1,
+      "id": 1
+    },
+    {
+      "title": "Imparare i verbi",
+      "courseId": 1,
+      "id": 2
+    },
+    {
+      "title": "Imparare RTK",
+      "courseId": 1,
+      "id": 3
+    },
+    {
+      "title": "Imparare testinh",
+      "courseId": 1,
+      "id": 4
+    }
   ]
 }

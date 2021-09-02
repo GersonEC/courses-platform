@@ -24,6 +24,7 @@ interface AddCourseArgs {
   name: string;
   price: number;
 }
+
 export const addCourse = createAsyncThunk(
   "courses/createCourse",
   async (args: AddCourseArgs) => {
