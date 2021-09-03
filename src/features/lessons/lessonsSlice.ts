@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { Lesson } from "../../utils/models";
-import { createLesson } from "./lessonsAPI";
+import { createLesson, updateLesson } from "./lessonsAPI";
 
 export interface CoursesState {
   lessons: Lesson[];
@@ -26,6 +26,15 @@ export const addLesson = createAsyncThunk(
   }
 );
 
+export const saveLesson = createAsyncThunk(
+  "courses/saveLesson",
+  async (lesson: Lesson) => {
+    const response = await updateLesson(lesson);
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+
 export const loadLessons = createAsyncThunk("courses/loadLessons", async () => {
   return fetch("/lessons").then((res) => res.json());
 });
@@ -43,6 +52,18 @@ export const lessonsSlice = createSlice({
       state.status = "success";
     });
     builder.addCase(addLesson.rejected, (state, action) => {
+      state.status = "error";
+    });
+    builder.addCase(saveLesson.pending, (state, action) => {
+      state.status = "pending";
+    });
+    builder.addCase(saveLesson.fulfilled, (state, action) => {
+      const lesson: Lesson = action.payload;
+      const index = state.lessons.findIndex((el) => el.id === lesson.id);
+      state.lessons[index] = lesson;
+      state.status = "success";
+    });
+    builder.addCase(saveLesson.rejected, (state, action) => {
       state.status = "error";
     });
     builder.addCase(loadLessons.pending, (state, action) => {

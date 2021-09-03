@@ -13,12 +13,12 @@
   ],
   "lessons": [
     {
-      "title": "Nuova lezione",
+      "title": "Nuova lezione modificata",
       "courseId": 1,
       "id": 1
     },
     {
-      "title": "Imparare i verbi",
+      "title": "Imparare i verbi yes!",
       "courseId": 1,
       "id": 2
     },
@@ -33,7 +33,7 @@
       "id": 4
     },
     {
-      "title": "react fondamento",
+      "title": "react fondamenti",
       "courseId": 2,
       "id": 5
     },

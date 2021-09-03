@@ -8,24 +8,25 @@ import {
 } from "../../features/courses/coursesSlice";
 import {
   loadLessons,
+  saveLesson,
   selectLessons,
 } from "../../features/lessons/lessonsSlice";
 import { Course, Lesson } from "../../utils/models";
 import { NewLesson } from "../Lessons/NewLesson";
+import EditableLabel from "react-editable-label";
 
-interface ParamTypes {
+/*interface ParamTypes {
   courseId: string;
-}
+}*/
 
 export const CourseDetail = () => {
-  const { courseId } = useParams<ParamTypes>();
+  const { courseId } = useParams();
   const courses = useAppSelector(selectCourses);
   const lessons = useAppSelector(selectLessons);
-  const [currentCourse, setCurrentCourse] = useState<Course>();
-  const [courseFound, setCourseFound] = useState<boolean | null>(null);
+  const [currentCourse, setCurrentCourse] = useState();
+  const [courseFound, setCourseFound] = useState(null);
   const dispatch = useAppDispatch();
 
-  console.log("Lessons: ", lessons);
   useEffect(() => {
     dispatch(loadCourses());
     dispatch(loadLessons());
@@ -42,6 +43,12 @@ export const CourseDetail = () => {
       }
     }
   }, [courseId, courses]);
+
+  const onLessonEdit = (lesson, newTitle) => {
+    const lessonEdited = { ...lesson };
+    lessonEdited.title = newTitle;
+    dispatch(saveLesson(lessonEdited));
+  };
 
   if (!currentCourse && courseFound === null) {
     return <h1>Loading Course...</h1>;
@@ -65,8 +72,30 @@ export const CourseDetail = () => {
                 <ul>
                   {lessons
                     .filter((lesson) => lesson.courseId === currentCourse.id)
-                    .map((lesson: Lesson) => (
-                      <li key={lesson.id}>{lesson.title}</li>
+                    .map((lesson) => (
+                      <li
+                        style={{
+                          display: "flex",
+                          gap: "2rem",
+                          marginBlockEnd: "1rem",
+                        }}
+                        key={lesson.id}
+                      >
+                        <div
+                          style={{
+                            border: "1px dashed gray",
+                            display: "flex",
+                            ":hover": {
+                              cursor: "pointer",
+                            },
+                          }}
+                        >
+                          <EditableLabel
+                            initialValue={lesson.title}
+                            save={(newTitle) => onLessonEdit(lesson, newTitle)}
+                          />
+                        </div>
+                      </li>
                     ))}
                 </ul>
               )}
