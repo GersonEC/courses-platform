@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState, AppThunk } from "../../app/store";
 import { Lesson } from "../../utils/models";
-import { createLesson, updateLesson } from "./lessonsAPI";
+import {
+  createLesson,
+  updateLesson,
+  deleteLesson as destroyLesson,
+} from "./lessonsAPI";
 
-export interface CoursesState {
+export interface LessonsState {
   lessons: Lesson[];
   status: "idle" | "pending" | "success" | "error";
 }
 
-const initialState: CoursesState = {
+const initialState: LessonsState = {
   lessons: [],
   status: "idle",
 };
@@ -18,7 +22,7 @@ interface AddLessonArgs {
   courseId: number;
 }
 export const addLesson = createAsyncThunk(
-  "courses/createLesson",
+  "lessons/createLesson",
   async (args: AddLessonArgs) => {
     const response = await createLesson(args.title, args.courseId);
     // The value we return becomes the `fulfilled` action payload
@@ -27,11 +31,20 @@ export const addLesson = createAsyncThunk(
 );
 
 export const saveLesson = createAsyncThunk(
-  "courses/saveLesson",
+  "lessons/saveLesson",
   async (lesson: Lesson) => {
     const response = await updateLesson(lesson);
     // The value we return becomes the `fulfilled` action payload
     return response;
+  }
+);
+
+export const deleteLesson = createAsyncThunk(
+  "lessons/deleteLesson",
+  async (lesson: Lesson) => {
+    debugger;
+    await destroyLesson(lesson);
+    return lesson;
   }
 );
 
@@ -64,6 +77,19 @@ export const lessonsSlice = createSlice({
       state.status = "success";
     });
     builder.addCase(saveLesson.rejected, (state, action) => {
+      state.status = "error";
+    });
+    builder.addCase(deleteLesson.pending, (state, action) => {
+      state.status = "pending";
+    });
+    builder.addCase(deleteLesson.fulfilled, (state, action) => {
+      debugger;
+      const lesson: Lesson = action.payload;
+      const lessonsFiltered = state.lessons.filter((el) => el.id !== lesson.id);
+      state.lessons = lessonsFiltered;
+      state.status = "success";
+    });
+    builder.addCase(deleteLesson.rejected, (state, action) => {
       state.status = "error";
     });
     builder.addCase(loadLessons.pending, (state, action) => {

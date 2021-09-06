@@ -15,6 +15,10 @@ export const updateLesson = (lesson: Lesson) => {
   return fetchWithData(`/lessons/${lesson.id}`, lesson, "PUT");
 };
 
+export const deleteLesson = (lesson: Lesson) => {
+  return fetchWithData(`/lessons/${lesson.id}`, lesson, "DELETE");
+};
+
 function fetchWithData(url = ``, data = {}, method = "POST") {
   // Default options are marked with *
   return fetch(url, {

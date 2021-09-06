@@ -4,6 +4,7 @@ import "./App.css";
 import { CourseDetail } from "./components/Courses/CourseDetail";
 import { Page404 } from "./pages/404.page";
 import CoursePage from "./pages/Course.page";
+import { LessonPage } from "./pages/Lesson.page";
 
 const Routes = () => {
   return (
@@ -12,7 +13,11 @@ const Routes = () => {
         <CoursePage />
       </Route>
       <Route path="/courses/:courseId">
-        <CourseDetail />
+        <CourseDetail>
+          <Route path="/courses/:courseId/lessons/:lessonId">
+            <LessonPage />
+          </Route>
+        </CourseDetail>
       </Route>
       <Route path="/*">
         <Page404 />

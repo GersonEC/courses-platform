@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   loadCourses,
   selectCourses,
 } from "../../features/courses/coursesSlice";
 import {
+  deleteLesson,
   loadLessons,
   saveLesson,
   selectLessons,
 } from "../../features/lessons/lessonsSlice";
-import { Course, Lesson } from "../../utils/models";
 import { NewLesson } from "../Lessons/NewLesson";
 import EditableLabel from "react-editable-label";
 
@@ -19,7 +19,7 @@ import EditableLabel from "react-editable-label";
   courseId: string;
 }*/
 
-export const CourseDetail = () => {
+export const CourseDetail = ({ children }) => {
   const { courseId } = useParams();
   const courses = useAppSelector(selectCourses);
   const lessons = useAppSelector(selectLessons);
@@ -48,6 +48,10 @@ export const CourseDetail = () => {
     const lessonEdited = { ...lesson };
     lessonEdited.title = newTitle;
     dispatch(saveLesson(lessonEdited));
+  };
+
+  const onLessonDelete = (lesson) => {
+    dispatch(deleteLesson(lesson));
   };
 
   if (!currentCourse && courseFound === null) {
@@ -81,6 +85,11 @@ export const CourseDetail = () => {
                         }}
                         key={lesson.id}
                       >
+                        <Link
+                          to={`/courses/${currentCourse.id}/lessons/${lesson.id}`}
+                        >
+                          Select
+                        </Link>
                         <div
                           style={{
                             border: "1px dashed gray",
@@ -94,6 +103,12 @@ export const CourseDetail = () => {
                             initialValue={lesson.title}
                             save={(newTitle) => onLessonEdit(lesson, newTitle)}
                           />
+                          <button
+                            style={{ marginLeft: "2rem" }}
+                            onClick={() => onLessonDelete(lesson)}
+                          >
+                            delete
+                          </button>
                         </div>
                       </li>
                     ))}
@@ -102,6 +117,7 @@ export const CourseDetail = () => {
               <NewLesson courseId={currentCourse.id} />
             </div>
           </div>
+          <div>{children}</div>
         </>
       )}
     </div>

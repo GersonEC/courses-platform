@@ -13,24 +13,9 @@
   ],
   "lessons": [
     {
-      "title": "Nuova lezione modificata",
-      "courseId": 1,
-      "id": 1
-    },
-    {
       "title": "Imparare i verbi yes!",
       "courseId": 1,
       "id": 2
-    },
-    {
-      "title": "Imparare RTK",
-      "courseId": 1,
-      "id": 3
-    },
-    {
-      "title": "Imparare testinh",
-      "courseId": 1,
-      "id": 4
     },
     {
       "title": "react fondamenti",
@@ -46,6 +31,11 @@
       "title": "Hooks",
       "courseId": 2,
       "id": 7
+    },
+    {
+      "title": "Imparare RTK",
+      "courseId": 1,
+      "id": 8
     }
   ]
 }
